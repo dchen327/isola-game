@@ -1,4 +1,4 @@
-public GameMove_DC {
+public class GameMove_DC {
     private int moveR, moveC;
     private int destroyR, destroyC;
 
@@ -13,15 +13,15 @@ public GameMove_DC {
         return moveR;
     }
 
-    public int getMoveY() {
-        return moveY;
+    public int getMoveC() {
+        return moveC;
     }
 
     public int getDestroyR() {
         return destroyR;
     }
 
-    public int getDestroyY() {
+    public int getDestroyC() {
         return destroyC;
     }
 }

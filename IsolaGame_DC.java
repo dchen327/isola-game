@@ -18,11 +18,15 @@ Info from (https://www.cs.umb.edu/~yunxu/isola/rules.html)
 public class IsolaGame_DC {
     private Board_DC gameBoard;
     private int boardSize;
-    private Player_DC player;
 
     public IsolaGame_DC(int boardSize) {
         this.boardSize = boardSize;
-        gameBoard = new Board_DC(boardSize);
+        Player_DC player1 = new Player_DC(0, boardSize / 2);
+        Player_DC player2 = new Player_DC(boardSize - 1, boardSize / 2);
+        gameBoard = new Board_DC(boardSize, player1, player2);
+        System.out.println(gameBoard);
+        GameMove_DC move = player1.getMove();
+        gameBoard.makeMove(move);
         System.out.println(gameBoard);
     }
 }
