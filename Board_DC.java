@@ -94,11 +94,50 @@ public class Board_DC {
                 }
             }
         }
-        for (int[] move : possibleMoves) {
-            System.out.print(move[0] + " " + move[1] + ", ");
-        }
-        System.out.println();
+        // debugging
+        // for (int[] move : possibleMoves) {
+        //     System.out.print(move[0] + " " + move[1] + ", ");
+        // }
+        // System.out.println();
         return possibleMoves;
+    }
+
+    // given a row and column, convert to X and Y for drawing on canvas
+    public double[] convertRCToXY(double r, double c) {
+        // in 2D array, we use rows and columns
+        // however, to draw we need X and Y where (0, 0) is bottom left
+        // we swap rows and columns and then subtract column from total height
+        double[] xy = {c + 0.5, boardSize - r - 0.5};
+        return xy;
+    }
+
+    public void draw() {
+        StdDraw.setScale(0, boardSize);
+        for (int i = 0; i <= boardSize; i++) {  // draw horizontal and vertical gridlines
+            StdDraw.line(0, i, boardSize, i);
+            StdDraw.line(i, 0, i, boardSize);
+        }
+
+        for (int r = 0; r < boardSize; r++) {
+            for (int c = 0; c < boardSize; c++) {
+                double[] xy = convertRCToXY(r, c);
+                double x = xy[0];
+                double y = xy[1];
+                if (grid[r][c] == "1") {
+                    StdDraw.setPenColor(StdDraw.GREEN);
+                    StdDraw.filledCircle(x, y, 0.5);
+                    StdDraw.setPenColor(StdDraw.BLACK);
+                }
+                else if (grid[r][c] == "2") {
+                    StdDraw.setPenColor(StdDraw.BLUE);
+                    StdDraw.filledCircle(x, y, 0.5);
+                    StdDraw.setPenColor(StdDraw.BLACK);
+                }
+                else if (grid[r][c] == "X") {
+                    StdDraw.filledSquare(x, y, 0.5);
+                }
+            }
+        }
     }
 
     public String toString() {

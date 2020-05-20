@@ -34,21 +34,24 @@ public class IsolaGame_DC {
 
     // run the game loop and return the player number who won
     public int playGameAndGetWinner() {
+        gameBoard.draw();
         while (!isGameOver) {
             System.out.println(gameBoard);
             GameMove_DC move1 = player1.getMove();
             gameBoard.makeMove(move1);
             System.out.println(gameBoard);
+            gameBoard.draw();
             ArrayList<int[]> possibleMoves1 = gameBoard.getPossibleMoves(1);
-            if (possibleMoves1.size() == 0) {
+            if (possibleMoves1.size() == 0) {  // stuck, game over
                 isGameOver = true;
                 return 2;
             }
             GameMove_DC move2 = player2.getMove();
             gameBoard.makeMove(move2);
             System.out.println(gameBoard);
+            gameBoard.draw();
             ArrayList<int[]> possibleMoves2 = gameBoard.getPossibleMoves(2);
-            if (possibleMoves2.size() == 0) {
+            if (possibleMoves2.size() == 0) {  // stuck, game over
                 isGameOver = true;
                 return 1;
             }
