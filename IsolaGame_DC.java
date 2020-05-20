@@ -18,7 +18,7 @@ Info from (https://www.cs.umb.edu/~yunxu/isola/rules.html)
 import java.util.ArrayList;
 
 public class IsolaGame_DC {
-    private Board_DC gameBoard;
+    private GameState_DC gameBoard;
     private int boardSize;
     private Player_DC player1;
     private Player_DC player2;
@@ -28,7 +28,8 @@ public class IsolaGame_DC {
         this.boardSize = boardSize;
         player1 = new Player_DC(0, boardSize / 2);
         player2 = new Player_DC(boardSize - 1, boardSize / 2);
-        gameBoard = new Board_DC(boardSize, player1, player2);
+        gameBoard = new GameState_DC(boardSize, player1, player2);
+        gameBoard.stdDrawInit();
         isGameOver = false;
     }
 
@@ -37,7 +38,7 @@ public class IsolaGame_DC {
         gameBoard.draw();
         while (!isGameOver) {
             System.out.println(gameBoard);
-            GameMove_DC move1 = player1.getMove();
+            GameMove_DC move1 = player1.getMoveCLI();
             gameBoard.makeMove(move1);
             System.out.println(gameBoard);
             gameBoard.draw();
@@ -46,7 +47,7 @@ public class IsolaGame_DC {
                 isGameOver = true;
                 return 2;
             }
-            GameMove_DC move2 = player2.getMove();
+            GameMove_DC move2 = player2.getMoveCLI();
             gameBoard.makeMove(move2);
             System.out.println(gameBoard);
             gameBoard.draw();
