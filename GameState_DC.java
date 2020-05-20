@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Board_DC {
+public class GameState_DC {
     private int boardSize;
     private String[][] grid;
     private String currPlayer;
@@ -8,7 +8,7 @@ public class Board_DC {
     Player_DC player1, player2;
 
     // initialize empty grid (all null), then place two player pieces
-    public Board_DC(int boardSize, Player_DC player1, Player_DC player2) {
+    public GameState_DC(int boardSize, Player_DC player1, Player_DC player2) {
         this.boardSize = boardSize;
         this.player1 = player1;
         this.player2 = player2;
@@ -102,6 +102,10 @@ public class Board_DC {
         return possibleMoves;
     }
 
+    public void stdDrawInit() {
+        StdDraw.setScale(0, boardSize + 1);  // add some additional space for text info
+    }
+
     // given a row and column, convert to X and Y for drawing on canvas
     public double[] convertRCToXY(double r, double c) {
         // in 2D array, we use rows and columns
@@ -112,7 +116,6 @@ public class Board_DC {
     }
 
     public void draw() {
-        StdDraw.setScale(0, boardSize);
         for (int i = 0; i <= boardSize; i++) {  // draw horizontal and vertical gridlines
             StdDraw.line(0, i, boardSize, i);
             StdDraw.line(i, 0, i, boardSize);
