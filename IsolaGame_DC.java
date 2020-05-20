@@ -15,18 +15,44 @@ Info from (https://www.cs.umb.edu/~yunxu/isola/rules.html)
  * @version Java 1.8.0 - 3/17/20
  */
 
+import java.util.ArrayList;
+
 public class IsolaGame_DC {
     private Board_DC gameBoard;
     private int boardSize;
+    private Player_DC player1;
+    private Player_DC player2;
+    boolean isGameOver;
 
     public IsolaGame_DC(int boardSize) {
         this.boardSize = boardSize;
-        Player_DC player1 = new Player_DC(0, boardSize / 2);
-        Player_DC player2 = new Player_DC(boardSize - 1, boardSize / 2);
+        player1 = new Player_DC(0, boardSize / 2);
+        player2 = new Player_DC(boardSize - 1, boardSize / 2);
         gameBoard = new Board_DC(boardSize, player1, player2);
-        System.out.println(gameBoard);
-        GameMove_DC move = player1.getMove();
-        gameBoard.makeMove(move);
-        System.out.println(gameBoard);
+        isGameOver = false;
+    }
+
+    // run the game loop and return the player number who won
+    public int playGameAndGetWinner() {
+        while (!isGameOver) {
+            System.out.println(gameBoard);
+            GameMove_DC move1 = player1.getMove();
+            gameBoard.makeMove(move1);
+            System.out.println(gameBoard);
+            ArrayList<int[]> possibleMoves1 = gameBoard.getPossibleMoves(1);
+            if (possibleMoves1.size() == 0) {
+                isGameOver = true;
+                return 2;
+            }
+            GameMove_DC move2 = player2.getMove();
+            gameBoard.makeMove(move2);
+            System.out.println(gameBoard);
+            ArrayList<int[]> possibleMoves2 = gameBoard.getPossibleMoves(2);
+            if (possibleMoves2.size() == 0) {
+                isGameOver = true;
+                return 1;
+            }
+        }
+        return 0;
     }
 }
