@@ -38,7 +38,7 @@ public class IsolaGame_DC {
         gameBoard.draw();
         while (!isGameOver) {
             System.out.println(gameBoard);
-            int[] move1 = {-2, -2};
+            int[] move1 = {-2, -2};  // initialize this to something that will definitely not be valid
             while (!gameBoard.isValidMove(player1, move1)) {
                 if (StdDraw.isMousePressed()) {
                     move1 = player1.getMove();
@@ -58,10 +58,8 @@ public class IsolaGame_DC {
             gameBoard.destroyLoc(destroy1);
             System.out.println(gameBoard);
             gameBoard.draw();
-            ArrayList<int[]> possibleMoves1 = gameBoard.getPossibleMoves(1);
-            if (possibleMoves1.size() == 0) {  // stuck, game over
-                isGameOver = true;
-                return 2;
+            if (gameBoard.gameWinner() != 0) {
+                return gameBoard.gameWinner();
             }
             int[] move2 = {-2, -2};
             while (!gameBoard.isValidMove(player2, move2)) {
@@ -83,10 +81,8 @@ public class IsolaGame_DC {
             gameBoard.destroyLoc(destroy2);
             System.out.println(gameBoard);
             gameBoard.draw();
-            ArrayList<int[]> possibleMoves2 = gameBoard.getPossibleMoves(2);
-            if (possibleMoves2.size() == 0) {  // stuck, game over
-                isGameOver = true;
-                return 1;
+            if (gameBoard.gameWinner() != 0) {
+                return gameBoard.gameWinner();
             }
         }
         return 0;

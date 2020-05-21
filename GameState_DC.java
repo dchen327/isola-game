@@ -4,6 +4,7 @@ public class GameState_DC {
     private int boardSize;
     private String[][] grid;
     private String currPlayer;
+    private String currAction;
     private int currMoveNum;
     Player_DC player1, player2;
 
@@ -16,6 +17,7 @@ public class GameState_DC {
         grid[player1.getCurrR()][player1.getCurrC()] = "1";
         grid[player2.getCurrR()][player2.getCurrC()] = "2";
         currPlayer = "1";
+        currAction = "move";
         currMoveNum = 1;
     }
 
@@ -36,11 +38,13 @@ public class GameState_DC {
             player2.setCurrC(moveC);
         }
         currMoveNum++;
+        currAction = "destroy";
     }
 
     public void destroyLoc(int[] destroy) {
         grid[destroy[0]][destroy[1]] = "X";
         changePlayer();
+        currAction = "move";
     }
 
     // swap player
@@ -56,10 +60,10 @@ public class GameState_DC {
     // returns 0 if no winner, 1 or 2 if either player has won
     public int gameWinner() {
         if (getPossibleMoves(1).size() == 0) {
-            return 1;
+            return 2;
         }
         else if (getPossibleMoves(2).size() == 0) {
-            return 2;
+            return 1;
         }
         return 0;
     }
@@ -146,6 +150,14 @@ public class GameState_DC {
                 }
             }
         }
+
+        // text info above board: 'Player 1: destroy'
+        String currInfo = "Player " + currPlayer + ": " + currAction;
+        if (gameWinner() != 0) {  // game over
+            currInfo = "Player " + gameWinner() + " wins!";
+        }
+        StdDraw.text(boardSize / 2.0, boardSize + 0.5, currInfo);
+
         StdDraw.show();
     }
 
