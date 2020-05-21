@@ -38,8 +38,23 @@ public class Player_DC {
     // get player's move on the drawn board
     public int[] getMove() {
         // TODO
+        // can only move one position in the 8 directions
         int[] move = {0, 0};
         return move;
+    }
+
+    public int[] getDestroy() {
+        // TODO
+        int[] move = {0, 0};
+        return move;
+    }
+
+    // Returns the board location closest to where the mouse cursor currently is
+    public int[] nearestLoc() {
+        int c = (int) Math.round(StdDraw.mouseX() - 0.5);
+        int r = boardSize - (int) Math.round(StdDraw.mouseY() + 0.5);
+        int[] rc = {r, c};
+        return rc;
     }
 
     public void setCurrR(int newR) {

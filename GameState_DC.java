@@ -21,7 +21,6 @@ public class GameState_DC {
 
     // place pieces in spots as specified by GameMove_DC argument
     public void makeMove(int[] move) {
-        // there's definitely a better way to do this
         int moveR = move[0];
         int moveC = move[1];
 
