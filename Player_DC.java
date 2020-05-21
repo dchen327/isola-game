@@ -36,10 +36,10 @@ public class Player_DC {
     }
 
     // get player's move on the drawn board
-    public GameMove_DC getMove() {
+    public int[] getMove() {
         // TODO
-
-        return new GameMove_DC(0, 0, 0, 0);
+        int[] move = {0, 0};
+        return move;
     }
 
     public void setCurrR(int newR) {
