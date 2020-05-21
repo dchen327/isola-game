@@ -77,7 +77,7 @@ public class GameState_DC {
         }
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (!(i == 0 && j == 0) && 0 <= pR + i && pR + i < boardSize && 0 <= pC + j && pC + j <= boardSize) {
+                if (!(i == 0 && j == 0) && 0 <= pR + i && pR + i < boardSize && 0 <= pC + j && pC + j < boardSize) {
                     if (grid[pR + i][pC + j] == null) {
                         int move[] =  {pR + i, pC + j};
                         possibleMoves.add(move);
@@ -91,6 +91,18 @@ public class GameState_DC {
         // }
         // System.out.println();
         return possibleMoves;
+    }
+
+    public boolean isValidMove(Player_DC player, int[] move) {
+        int r = move[0];
+        int c = move[1];
+        return (Math.abs(r - player.getCurrR()) <= 1 && Math.abs(c - player.getCurrC()) <= 1 && grid[r][c] == null);
+    }
+
+    public boolean isValidDestroy(int[] destroy) {
+        int r = destroy[0];
+        int c = destroy[1];
+        return (0 <= r && r < boardSize && 0 <= c && c < boardSize && grid[r][c] == null);
     }
 
     public void stdDrawInit() {

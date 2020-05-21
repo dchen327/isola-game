@@ -37,36 +37,57 @@ public class IsolaGame_DC {
     public int playGameAndGetWinner() {
         gameBoard.draw();
         while (!isGameOver) {
-            // System.out.println(gameBoard);
-            if (StdDraw.isMousePressed()) {
-                System.out.println(player1.nearestLoc()[0] + " " + player1.nearestLoc()[1]);
+            System.out.println(gameBoard);
+            int[] move1 = {-2, -2};
+            while (!gameBoard.isValidMove(player1, move1)) {
+                if (StdDraw.isMousePressed()) {
+                    move1 = player1.getMove();
+                }
             }
-            // int[] move1 = player1.getMoveCLI();
-            // gameBoard.makeMove(move1);
-            // System.out.println(gameBoard);
-            // gameBoard.draw();
-            // int[] destroy1 = player1.getDestroyCLI();
-            // gameBoard.destroyLoc(destroy1);
-            // System.out.println(gameBoard);
-            // gameBoard.draw();
-            // ArrayList<int[]> possibleMoves1 = gameBoard.getPossibleMoves(1);
-            // if (possibleMoves1.size() == 0) {  // stuck, game over
-            //     isGameOver = true;
-            //     return 2;
-            // }
-            // int[] move2 = player2.getMoveCLI();
-            // gameBoard.makeMove(move2);
-            // System.out.println(gameBoard);
-            // gameBoard.draw();
-            // int[] destroy2 = player2.getDestroyCLI();
-            // gameBoard.destroyLoc(destroy2);
-            // System.out.println(gameBoard);
-            // gameBoard.draw();
-            // ArrayList<int[]> possibleMoves2 = gameBoard.getPossibleMoves(2);
-            // if (possibleMoves2.size() == 0) {  // stuck, game over
-            //     isGameOver = true;
-            //     return 1;
-            // }
+            StdDraw.pause(50);
+            gameBoard.makeMove(move1);
+            System.out.println(gameBoard);
+            gameBoard.draw();
+            int[] destroy1 = {-2, -2};
+            while (!gameBoard.isValidDestroy(destroy1)) {
+                if (StdDraw.isMousePressed()) {
+                    destroy1 = player1.getDestroy();
+                }
+            }
+            StdDraw.pause(50);
+            gameBoard.destroyLoc(destroy1);
+            System.out.println(gameBoard);
+            gameBoard.draw();
+            ArrayList<int[]> possibleMoves1 = gameBoard.getPossibleMoves(1);
+            if (possibleMoves1.size() == 0) {  // stuck, game over
+                isGameOver = true;
+                return 2;
+            }
+            int[] move2 = {-2, -2};
+            while (!gameBoard.isValidMove(player2, move2)) {
+                if (StdDraw.isMousePressed()) {
+                    move2 = player2.getMove();
+                }
+            }
+            StdDraw.pause(50);
+            gameBoard.makeMove(move2);
+            System.out.println(gameBoard);
+            gameBoard.draw();
+            int[] destroy2 = {-2, -2};
+            while (!gameBoard.isValidDestroy(destroy2)) {
+                if (StdDraw.isMousePressed()) {
+                    destroy2 = player2.getDestroy();
+                }
+            }
+            StdDraw.pause(50);
+            gameBoard.destroyLoc(destroy2);
+            System.out.println(gameBoard);
+            gameBoard.draw();
+            ArrayList<int[]> possibleMoves2 = gameBoard.getPossibleMoves(2);
+            if (possibleMoves2.size() == 0) {  // stuck, game over
+                isGameOver = true;
+                return 1;
+            }
         }
         return 0;
     }

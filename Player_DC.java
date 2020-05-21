@@ -36,16 +36,11 @@ public class Player_DC {
 
     // get player's move on the drawn board
     public int[] getMove() {
-        // TODO
-        // can only move one position in the 8 directions
-        int[] move = {0, 0};
-        return move;
+        return nearestLoc();
     }
 
     public int[] getDestroy() {
-        // TODO
-        int[] move = {0, 0};
-        return move;
+        return nearestLoc();
     }
 
     public int[] nearestLoc() {
@@ -53,6 +48,11 @@ public class Player_DC {
         // then swap r and c and subtract c from boardSize to convert between XY and RC
         int c = (int) Math.round(StdDraw.mouseX() - 0.5);
         int r = boardSize - (int) Math.round(StdDraw.mouseY() + 0.5);
+        // ensure values are actually on the game board
+        r = Math.max(r, 0);
+        r = Math.min(r, boardSize - 1);
+        c = Math.max(c, 0);
+        c = Math.min(c, boardSize - 1);
         int[] rc = {r, c};
         return rc;
     }
