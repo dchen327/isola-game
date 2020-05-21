@@ -1,15 +1,14 @@
 import java.util.Scanner;
 
 public class Player_DC {
-    private String gamePiece;
+    private int boardSize;
     private int currR, currC;
     private String playerState;
 
-    public Player_DC(int initR, int initC) {
-        // this.gamePiece = gamePiece;
+    public Player_DC(int boardSize, int initR, int initC) {
+        this.boardSize = boardSize;
         currR = initR;
         currC = initC;
-        playerState = "nothing";
     }
 
     // prompt the user for a move through command line
@@ -49,8 +48,9 @@ public class Player_DC {
         return move;
     }
 
-    // Returns the board location closest to where the mouse cursor currently is
     public int[] nearestLoc() {
+        // basically just find the closest square with some rounding
+        // then swap r and c and subtract c from boardSize to convert between XY and RC
         int c = (int) Math.round(StdDraw.mouseX() - 0.5);
         int r = boardSize - (int) Math.round(StdDraw.mouseY() + 0.5);
         int[] rc = {r, c};

@@ -26,8 +26,8 @@ public class IsolaGame_DC {
 
     public IsolaGame_DC(int boardSize) {
         this.boardSize = boardSize;
-        player1 = new Player_DC(0, boardSize / 2);
-        player2 = new Player_DC(boardSize - 1, boardSize / 2);
+        player1 = new Player_DC(boardSize, 0, boardSize / 2);
+        player2 = new Player_DC(boardSize, boardSize - 1, boardSize / 2);
         gameBoard = new GameState_DC(boardSize, player1, player2);
         gameBoard.stdDrawInit();
         isGameOver = false;
@@ -39,9 +39,7 @@ public class IsolaGame_DC {
         while (!isGameOver) {
             // System.out.println(gameBoard);
             if (StdDraw.isMousePressed()) {
-                int c = (int) Math.round(StdDraw.mouseX() - 0.5);
-                int r = boardSize - (int) Math.round(StdDraw.mouseY() + 0.5);
-                System.out.println(r + " " + c);
+                System.out.println(player1.nearestLoc()[0] + " " + player1.nearestLoc()[1]);
             }
             // int[] move1 = player1.getMoveCLI();
             // gameBoard.makeMove(move1);
