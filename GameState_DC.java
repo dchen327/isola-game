@@ -6,10 +6,11 @@ public class GameState_DC {
     private String currPlayer;
     private String currAction;
     private int currMoveNum;
-    Player_DC player1, player2;
+    Player_DC player1;
+    MinimaxAI_DC player2;
 
     // initialize empty grid (all null), then place two player pieces
-    public GameState_DC(int boardSize, Player_DC player1, Player_DC player2) {
+    public GameState_DC(int boardSize, Player_DC player1, MinimaxAI_DC player2) {
         this.boardSize = boardSize;
         this.player1 = player1;
         this.player2 = player2;
@@ -21,7 +22,11 @@ public class GameState_DC {
         currMoveNum = 1;
     }
 
-    // place pieces in spots as specified by GameMove_DC argument
+    public GameState_DC(GameState_DC gameState) {
+        this.boardSize = gameState.boardSize;
+    }
+
+    // place pieces in spots
     public void makeMove(int[] move) {
         int moveR = move[0];
         int moveC = move[1];
@@ -41,6 +46,7 @@ public class GameState_DC {
         currAction = "destroy";
     }
 
+    // destroy given spot[]
     public void destroyLoc(int[] destroy) {
         grid[destroy[0]][destroy[1]] = "X";
         changePlayer();
@@ -95,6 +101,17 @@ public class GameState_DC {
         // }
         // System.out.println();
         return possibleMoves;
+    }
+
+    public ArrayList<int[]> getPossibleActions() {
+        ArrayList<int[]> possibleActions = new ArrayList<int[]>();
+        return possibleActions;
+    }
+
+    // take the action in the current state -> return new state
+    public GameState_DC generateSuccessor(int[] action) {
+        GameState_DC newState = new GameState_DC(this);
+        return newState;
     }
 
     public boolean isValidMove(Player_DC player, int[] move) {
@@ -159,6 +176,24 @@ public class GameState_DC {
         StdDraw.text(boardSize / 2.0, boardSize + 0.5, currInfo);
 
         StdDraw.show();
+    }
+
+    public int[] getP1Pos() {
+        int[] rc = {player1.getCurrR(), player1.getCurrC()};
+        return rc;
+    }
+    
+    public int[] getP2Pos() {
+        int[] rc = {player2.getCurrR(), player2.getCurrC()};
+        return rc;
+    }
+
+    public String getCurrPlayer() {
+        return currPlayer;
+    }
+
+    public String getCurrAction() {
+        return currAction;
     }
 
     public String toString() {

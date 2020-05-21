@@ -72,5 +72,4 @@ public class Player_DC {
     public int getCurrC() {
         return currC;
     }
-
 }

@@ -21,13 +21,14 @@ public class IsolaGame_DC {
     private GameState_DC gameBoard;
     private int boardSize;
     private Player_DC player1;
-    private Player_DC player2;
+    private MinimaxAI_DC player2;
     boolean isGameOver;
 
     public IsolaGame_DC(int boardSize) {
         this.boardSize = boardSize;
         player1 = new Player_DC(boardSize, 0, boardSize / 2);
-        player2 = new Player_DC(boardSize, boardSize - 1, boardSize / 2);
+        // player2 = new Player_DC(boardSize, boardSize - 1, boardSize / 2);
+        player2 = new MinimaxAI_DC(boardSize, boardSize - 1, boardSize / 2);
         gameBoard = new GameState_DC(boardSize, player1, player2);
         gameBoard.stdDrawInit();
         isGameOver = false;
@@ -61,26 +62,12 @@ public class IsolaGame_DC {
             if (gameBoard.gameWinner() != 0) {
                 return gameBoard.gameWinner();
             }
-            int[] move2 = {-2, -2};
-            while (!gameBoard.isValidMove(player2, move2)) {
-                if (StdDraw.isMousePressed()) {
-                    move2 = player2.getMove();
-                }
-            }
-            StdDraw.pause(50);
+
+            int[] move2 = player2.getMove(gameBoard);
             gameBoard.makeMove(move2);
-            System.out.println(gameBoard);
-            gameBoard.draw();
-            int[] destroy2 = {-2, -2};
-            while (!gameBoard.isValidDestroy(destroy2)) {
-                if (StdDraw.isMousePressed()) {
-                    destroy2 = player2.getDestroy();
-                }
-            }
-            StdDraw.pause(50);
+            int[] destroy2 = player2.getDestroy(gameBoard);
             gameBoard.destroyLoc(destroy2);
-            System.out.println(gameBoard);
-            gameBoard.draw();
+
             if (gameBoard.gameWinner() != 0) {
                 return gameBoard.gameWinner();
             }
