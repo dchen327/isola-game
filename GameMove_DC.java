@@ -24,4 +24,4 @@ public class GameMove_DC {
     public int getDestroyC() {
         return destroyC;
     }
-}
+}   

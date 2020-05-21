@@ -20,35 +20,27 @@ public class GameState_DC {
     }
 
     // place pieces in spots as specified by GameMove_DC argument
-    public void makeMove(GameMove_DC move) {
+    public void makeMove(int[] move) {
         // there's definitely a better way to do this
-        int moveR = move.getMoveR();
-        int moveC = move.getMoveC();
-        int destroyR = move.getDestroyR();
-        int destroyC = move.getDestroyC();
+        int moveR = move[0];
+        int moveC = move[1];
 
         grid[moveR][moveC] = currPlayer;
         if (currPlayer.equals("1")) {
-            if (currMoveNum <= 2) {  // the spawn positions are considered destroyed after the players move
-                grid[player1.getCurrR()][player1.getCurrC()] = "X";  // destroy spawn pos
-            }
-            else {
-                grid[player1.getCurrR()][player1.getCurrC()] = null;
-            }
+            grid[player1.getCurrR()][player1.getCurrC()] = null;
             player1.setCurrR(moveR);
             player1.setCurrC(moveC);
         }
         else {
-            if (currMoveNum <= 2) {
-                grid[player2.getCurrR()][player2.getCurrC()] = "X";
-            }
-            else {
-                grid[player2.getCurrR()][player2.getCurrC()] = null;
-            }
+            grid[player2.getCurrR()][player2.getCurrC()] = null;
             player2.setCurrR(moveR);
             player2.setCurrC(moveC);
         }
-        grid[destroyR][destroyC] = "X";
+        currMoveNum++;
+    }
+
+    public void destroyLoc(int[] destroy) {
+        grid[destroy[0]][destroy[1]] = "X";
         changePlayer();
     }
 
@@ -104,6 +96,7 @@ public class GameState_DC {
 
     public void stdDrawInit() {
         StdDraw.setScale(0, boardSize + 1);  // add some additional space for text info
+        StdDraw.enableDoubleBuffering();
     }
 
     // given a row and column, convert to X and Y for drawing on canvas
@@ -116,6 +109,7 @@ public class GameState_DC {
     }
 
     public void draw() {
+        StdDraw.clear();
         for (int i = 0; i <= boardSize; i++) {  // draw horizontal and vertical gridlines
             StdDraw.line(0, i, boardSize, i);
             StdDraw.line(i, 0, i, boardSize);
@@ -141,6 +135,7 @@ public class GameState_DC {
                 }
             }
         }
+        StdDraw.show();
     }
 
     public String toString() {

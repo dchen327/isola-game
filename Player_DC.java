@@ -13,18 +13,26 @@ public class Player_DC {
     }
 
     // prompt the user for a move through command line
-    public GameMove_DC getMoveCLI() {
+    public int[] getMoveCLI() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter row for move: ");
         int moveR = scan.nextInt();
         System.out.println("Enter col for move: ");
         int moveC = scan.nextInt();  
+
+        int move[] = {moveR, moveC};
+        return move;
+    }
+
+    public int[] getDestroyCLI() {
+        Scanner scan = new Scanner(System.in);
         System.out.println("Enter row to destroy: ");
         int destroyR = scan.nextInt();  
         System.out.println("Enter row to destroy: ");
         int destroyC = scan.nextInt();
 
-        return new GameMove_DC(moveR, moveC, destroyR, destroyC);
+        int destroy[] = {destroyR, destroyC};
+        return destroy;
     }
 
     // get player's move on the drawn board

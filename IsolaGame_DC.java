@@ -38,8 +38,12 @@ public class IsolaGame_DC {
         gameBoard.draw();
         while (!isGameOver) {
             System.out.println(gameBoard);
-            GameMove_DC move1 = player1.getMoveCLI();
+            int[] move1 = player1.getMoveCLI();
             gameBoard.makeMove(move1);
+            System.out.println(gameBoard);
+            gameBoard.draw();
+            int[] destroy1 = player1.getDestroyCLI();
+            gameBoard.destroyLoc(destroy1);
             System.out.println(gameBoard);
             gameBoard.draw();
             ArrayList<int[]> possibleMoves1 = gameBoard.getPossibleMoves(1);
@@ -47,8 +51,12 @@ public class IsolaGame_DC {
                 isGameOver = true;
                 return 2;
             }
-            GameMove_DC move2 = player2.getMoveCLI();
+            int[] move2 = player2.getMoveCLI();
             gameBoard.makeMove(move2);
+            System.out.println(gameBoard);
+            gameBoard.draw();
+            int[] destroy2 = player2.getDestroyCLI();
+            gameBoard.destroyLoc(destroy2);
             System.out.println(gameBoard);
             gameBoard.draw();
             ArrayList<int[]> possibleMoves2 = gameBoard.getPossibleMoves(2);
