@@ -130,8 +130,8 @@ public class GameState_DC {
                 pR = player2.getCurrR();
                 pC = player2.getCurrC();
             }
-            for (int i = -2; i <= 2; i++) {
-                for (int j = -2; j <= 2; j++) {
+            for (int i = -boardSize; i <= boardSize; i++) {
+                for (int j = -boardSize; j <= boardSize; j++) {
                     if (!(i == 0 && j == 0) && 0 <= pR + i && pR + i < boardSize && 0 <= pC + j && pC + j < boardSize) {
                         if (grid[pR + i][pC + j] == null) {
                             int destroy[] =  {pR + i, pC + j};
