@@ -25,12 +25,17 @@ public class GameState_DC {
     // used for cloning GameState
     public GameState_DC(GameState_DC gameState) {
         this.boardSize = gameState.boardSize;
-        this.grid = gameState.grid;
-        this.currPlayer = gameState.currPlayer;
-        this.currAction = gameState.currAction;
+        this.grid = new String[boardSize][boardSize];
+        for (int r = 0; r < boardSize; r++) {
+            for (int c = 0; c < boardSize; c++) {
+                this.grid[r][c] = gameState.grid[r][c];
+            }
+        }
+        this.currPlayer = new String(gameState.currPlayer);
+        this.currAction = new String(gameState.currAction);
         this.currMoveNum = gameState.currMoveNum;
-        this.player1 = gameState.player1;
-        this.player2 = gameState.player2;
+        this.player1 = new Player_DC(gameState.player1);
+        this.player2 = new MinimaxAI_DC(gameState.player2);
     }
 
     // place pieces in spots
@@ -147,6 +152,12 @@ public class GameState_DC {
     // take the action in the current state -> return new state
     public GameState_DC generateSuccessor(int[] action) {
         GameState_DC newState = new GameState_DC(this);
+        if (newState.getCurrAction().equals("move")) {
+            newState.makeMove(action);
+        }
+        else {
+            newState.destroyLoc(action);
+        }
         return newState;
     }
 

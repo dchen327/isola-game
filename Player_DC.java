@@ -11,6 +11,12 @@ public class Player_DC {
         currC = initC;
     }
 
+    public Player_DC(Player_DC player) {
+        this.boardSize = player.boardSize;
+        this.currR = player.currR;
+        this.currC = player.currC;
+    }
+
     // prompt the user for a move through command line
     public int[] getMoveCLI() {
         Scanner scan = new Scanner(System.in);

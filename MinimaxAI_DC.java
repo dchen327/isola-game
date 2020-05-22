@@ -4,24 +4,37 @@ public class MinimaxAI_DC {
     private int boardSize;
     private int currR, currC;
     private String playerState;
-    private int depth;
+    private int minimaxDepth;
 
     public MinimaxAI_DC(int boardSize, int initR, int initC) {
         this.boardSize = boardSize;
         currR = initR;
         currC = initC;
-        depth = 3;
+        minimaxDepth = 4;
+    }
+
+    public MinimaxAI_DC(MinimaxAI_DC player) {
+        this.boardSize = player.boardSize;
+        this.currR = player.currR;
+        this.currC = player.currC;
+        this.minimaxDepth = player.minimaxDepth;
     }
 
     public int[] getAction(GameState_DC gameState) {
         int[] bestAction = {-2, -2};
-        double bestVal = Double.POSITIVE_INFINITY;
+        // double bestVal = Double.POSITIVE_INFINITY;
+        double bestVal = Double.NEGATIVE_INFINITY;
         for (int[] action : gameState.getPossibleActions()) {
-            double val = minimax(gameState.generateSuccessor(action), depth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+            double val = minimax(gameState.generateSuccessor(action), minimaxDepth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
             if (val < bestVal) {
                 bestVal = val;
                 bestAction = action;
             }
+            // double val = minimax(gameState.generateSuccessor(action), minimaxDepth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+            // if (val > bestVal) {
+            //     bestVal = val;
+            //     bestAction = action;
+            // }
         }
         return bestAction;
     }
@@ -31,7 +44,9 @@ public class MinimaxAI_DC {
             return evaluate(gameState);
         }
         ArrayList<int[]> actions = gameState.getPossibleActions();
-        if (gameState.getCurrPlayer().equals(1)) {
+        // if (gameState.getCurrPlayer().equals("1") && gameState.getCurrAction().equals("destroy") || 
+        //     gameState.getCurrPlayer().equals("2") && gameState.getCurrAction().equals("move")) {
+        if (gameState.getCurrPlayer().equals("1")) {
             for (int[] action : actions) {
                 double v = minimax(gameState.generateSuccessor(action), depth - 1, alpha, beta);
                 alpha = Math.max(alpha, v);
@@ -66,6 +81,13 @@ public class MinimaxAI_DC {
         double p2Pos = gameState.getPossibleMoves(2).size() - centerProximity(gameState, 2);
 
         return p1Pos - p2Pos;
+        // not sure if this works
+        // if (gameState.getCurrAction().equals("destroy")) {
+        //     return (3 * p1Pos / 2) - p2Pos / 2;
+        // }
+        // else {
+        //     return p1Pos / 2 - (3 * p2Pos / 2);
+        // }
 
     }
 
