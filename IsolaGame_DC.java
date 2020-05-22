@@ -63,11 +63,11 @@ public class IsolaGame_DC {
                 return gameBoard.gameWinner();
             }
 
-            int[] move2 = player2.getMove(gameBoard);
+            int[] move2 = player2.getAction(gameBoard);
             gameBoard.makeMove(move2);
-            int[] destroy2 = player2.getDestroy(gameBoard);
+            int[] destroy2 = player2.getAction(gameBoard);
             gameBoard.destroyLoc(destroy2);
-
+            gameBoard.draw();
             if (gameBoard.gameWinner() != 0) {
                 return gameBoard.gameWinner();
             }

@@ -22,8 +22,15 @@ public class GameState_DC {
         currMoveNum = 1;
     }
 
+    // used for cloning GameState
     public GameState_DC(GameState_DC gameState) {
         this.boardSize = gameState.boardSize;
+        this.grid = gameState.grid;
+        this.currPlayer = gameState.currPlayer;
+        this.currAction = gameState.currAction;
+        this.currMoveNum = gameState.currMoveNum;
+        this.player1 = gameState.player1;
+        this.player2 = gameState.player2;
     }
 
     // place pieces in spots
@@ -104,8 +111,37 @@ public class GameState_DC {
     }
 
     public ArrayList<int[]> getPossibleActions() {
-        ArrayList<int[]> possibleActions = new ArrayList<int[]>();
-        return possibleActions;
+        if (currAction.equals("move")) {
+            if (currPlayer.equals("1)")) {
+                return getPossibleMoves(1);
+            }
+            else {
+                return getPossibleMoves(2);
+            }
+        }
+        else {  // destroy
+            ArrayList<int[]> possibleDestroy = new ArrayList<int[]>();
+            int pR, pC;
+            if (currPlayer.equals("1")) {
+                pR = player1.getCurrR();
+                pC = player1.getCurrC();
+            }
+            else {
+                pR = player2.getCurrR();
+                pC = player2.getCurrC();
+            }
+            for (int i = -2; i <= 2; i++) {
+                for (int j = -2; j <= 2; j++) {
+                    if (!(i == 0 && j == 0) && 0 <= pR + i && pR + i < boardSize && 0 <= pC + j && pC + j < boardSize) {
+                        if (grid[pR + i][pC + j] == null) {
+                            int destroy[] =  {pR + i, pC + j};
+                            possibleDestroy.add(destroy);
+                        }
+                    }
+                }
+            }
+            return possibleDestroy;
+        }
     }
 
     // take the action in the current state -> return new state

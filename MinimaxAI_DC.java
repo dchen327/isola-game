@@ -10,7 +10,7 @@ public class MinimaxAI_DC {
         this.boardSize = boardSize;
         currR = initR;
         currC = initC;
-        depth = 1;
+        depth = 3;
     }
 
     public int[] getAction(GameState_DC gameState) {
