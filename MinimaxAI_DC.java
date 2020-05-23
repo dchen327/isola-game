@@ -22,19 +22,14 @@ public class MinimaxAI_DC {
 
     public int[] getAction(GameState_DC gameState) {
         int[] bestAction = {-2, -2};
-        // double bestVal = Double.POSITIVE_INFINITY;
-        double bestVal = Double.NEGATIVE_INFINITY;
+        double bestVal = Double.POSITIVE_INFINITY;
         for (int[] action : gameState.getPossibleActions()) {
             double val = minimax(gameState.generateSuccessor(action), minimaxDepth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+            // System.out.println(action[0] + " " + action[1] + " " + val);
             if (val < bestVal) {
                 bestVal = val;
                 bestAction = action;
             }
-            // double val = minimax(gameState.generateSuccessor(action), minimaxDepth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-            // if (val > bestVal) {
-            //     bestVal = val;
-            //     bestAction = action;
-            // }
         }
         return bestAction;
     }
@@ -44,9 +39,10 @@ public class MinimaxAI_DC {
             return evaluate(gameState);
         }
         ArrayList<int[]> actions = gameState.getPossibleActions();
-        // if (gameState.getCurrPlayer().equals("1") && gameState.getCurrAction().equals("destroy") || 
-        //     gameState.getCurrPlayer().equals("2") && gameState.getCurrAction().equals("move")) {
-        if (gameState.getCurrPlayer().equals("1")) {
+        String currPlayer = gameState.getCurrPlayer();
+        String currAction = gameState.getCurrAction();
+        
+        if (currPlayer.equals("1")) {
             for (int[] action : actions) {
                 double v = minimax(gameState.generateSuccessor(action), depth - 1, alpha, beta);
                 alpha = Math.max(alpha, v);
@@ -70,11 +66,16 @@ public class MinimaxAI_DC {
     }
 
     private double evaluate(GameState_DC gameState) {
+        // take into account number of moves to prioritize faster wins
         if (gameState.gameWinner() == 1) {
-            return Double.POSITIVE_INFINITY;
+            return 1000000.0 - gameState.getMoveNum();
         }
         if (gameState.gameWinner() == 2) {
-            return Double.NEGATIVE_INFINITY;
+            
+            return -1000000.0 + gameState.getMoveNum();
+        }
+        if (gameState.gameWinner() == 3) {  // tie
+            return -100.0;
         }
 
         double p1Pos = gameState.getPossibleMoves(1).size() - centerProximity(gameState, 1);
@@ -88,7 +89,6 @@ public class MinimaxAI_DC {
         // else {
         //     return p1Pos / 2 - (3 * p2Pos / 2);
         // }
-
     }
 
     private double centerProximity(GameState_DC gameState, int playerNum) {

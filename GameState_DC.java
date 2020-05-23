@@ -31,8 +31,10 @@ public class GameState_DC {
                 this.grid[r][c] = gameState.grid[r][c];
             }
         }
-        this.currPlayer = new String(gameState.currPlayer);
-        this.currAction = new String(gameState.currAction);
+        // this.currPlayer = new String(gameState.currPlayer);
+        // this.currAction = new String(gameState.currAction);
+        this.currPlayer = gameState.currPlayer;
+        this.currAction = gameState.currAction;
         this.currMoveNum = gameState.currMoveNum;
         this.player1 = new Player_DC(gameState.player1);
         this.player2 = new MinimaxAI_DC(gameState.player2);
@@ -77,10 +79,16 @@ public class GameState_DC {
 
     // returns 0 if no winner, 1 or 2 if either player has won
     public int gameWinner() {
-        if (getPossibleMoves(1).size() == 0) {
+        int numP1Moves = getPossibleMoves(1).size();
+        int numP2Moves = getPossibleMoves(2).size();
+
+        if (numP1Moves == 0 && numP2Moves == 0) {  // tie game
+            return 3;
+        }
+        else if (numP1Moves == 0) {
             return 2;
         }
-        else if (getPossibleMoves(2).size() == 0) {
+        else if (numP2Moves == 0) {
             return 1;
         }
         return 0;
@@ -117,7 +125,7 @@ public class GameState_DC {
 
     public ArrayList<int[]> getPossibleActions() {
         if (currAction.equals("move")) {
-            if (currPlayer.equals("1)")) {
+            if (currPlayer.equals("1")) {
                 return getPossibleMoves(1);
             }
             else {
@@ -126,20 +134,11 @@ public class GameState_DC {
         }
         else {  // destroy
             ArrayList<int[]> possibleDestroy = new ArrayList<int[]>();
-            int pR, pC;
-            if (currPlayer.equals("1")) {
-                pR = player1.getCurrR();
-                pC = player1.getCurrC();
-            }
-            else {
-                pR = player2.getCurrR();
-                pC = player2.getCurrC();
-            }
-            for (int i = -boardSize; i <= boardSize; i++) {
-                for (int j = -boardSize; j <= boardSize; j++) {
-                    if (!(i == 0 && j == 0) && 0 <= pR + i && pR + i < boardSize && 0 <= pC + j && pC + j < boardSize) {
-                        if (grid[pR + i][pC + j] == null) {
-                            int destroy[] =  {pR + i, pC + j};
+            for (int i = 0; i < boardSize; i++) {
+                for (int j = 0; j < boardSize; j++) {
+                    if (0 <= i && i < boardSize && 0 <= j && j < boardSize) {
+                        if (grid[i][j] == null) {
+                            int destroy[] =  {i, j};
                             possibleDestroy.add(destroy);
                         }
                     }
@@ -158,6 +157,9 @@ public class GameState_DC {
         else {
             newState.destroyLoc(action);
         }
+        // System.out.println("New");
+        // System.out.println(newState);
+
         return newState;
     }
 
@@ -241,6 +243,10 @@ public class GameState_DC {
 
     public String getCurrAction() {
         return currAction;
+    }
+
+    public int getMoveNum() {
+        return currMoveNum;
     }
 
     public String toString() {

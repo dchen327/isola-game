@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class Player_DC {
     private int boardSize;
     private int currR, currC;
-    private String playerState;
 
     public Player_DC(int boardSize, int initR, int initC) {
         this.boardSize = boardSize;
