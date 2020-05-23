@@ -21,20 +21,27 @@ public class MinimaxAI_DC {
     }
 
     public int[] getAction(GameState_DC gameState) {
-        int[] bestAction = {-2, -2};
+        ArrayList<int[]> bestActions = new ArrayList<int[]>();
         double bestVal = Double.POSITIVE_INFINITY;
         for (int[] action : gameState.getPossibleActions()) {
             double val = minimax(gameState.generateSuccessor(action), minimaxDepth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
             System.out.println(gameState.getCurrAction() + " " + action[0] + " " + action[1] + " " + val);
             if (val < bestVal) {
                 bestVal = val;
-                bestAction = action;
+                bestActions.clear();  // remove suboptimal actions
+                bestActions.add(action);
                 if (val < -1000) {  // win, no need to check other moves
                     break;
                 }
             }
+            else if (val == bestVal) {
+                bestActions.add(action);
+            }
         }
-        return bestAction;
+
+        // pick a random action from all the best actions
+        int r = (int) (Math.random() * bestActions.size());
+        return bestActions.get(r);
     }
 
     private double minimax(GameState_DC gameState, int depth, double alpha, double beta) {
