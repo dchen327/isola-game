@@ -10,7 +10,7 @@ public class MinimaxAI_DC {
         this.boardSize = boardSize;
         currR = initR;
         currC = initC;
-        minimaxDepth = 4;
+        minimaxDepth = 5;
     }
 
     public MinimaxAI_DC(MinimaxAI_DC player) {
@@ -25,10 +25,13 @@ public class MinimaxAI_DC {
         double bestVal = Double.POSITIVE_INFINITY;
         for (int[] action : gameState.getPossibleActions()) {
             double val = minimax(gameState.generateSuccessor(action), minimaxDepth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-            // System.out.println(action[0] + " " + action[1] + " " + val);
+            System.out.println(gameState.getCurrAction() + " " + action[0] + " " + action[1] + " " + val);
             if (val < bestVal) {
                 bestVal = val;
                 bestAction = action;
+                if (val < -1000) {  // win, no need to check other moves
+                    break;
+                }
             }
         }
         return bestAction;
@@ -71,7 +74,6 @@ public class MinimaxAI_DC {
             return 1000000.0 - gameState.getMoveNum();
         }
         if (gameState.gameWinner() == 2) {
-            
             return -1000000.0 + gameState.getMoveNum();
         }
         if (gameState.gameWinner() == 3) {  // tie
@@ -106,7 +108,10 @@ public class MinimaxAI_DC {
             posY = gameState.getP2Pos()[1];
         }
 
+        // dist to center
         return Math.sqrt(Math.pow(posX - centerX, 2) + Math.pow(posY - centerY, 2));
+        // number of moves to reach center
+        // return Math.max(Math.abs(posX - centerX), Math.abs(posY - centerY));
     }
 
     public void setCurrR(int newR) {

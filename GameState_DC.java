@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.awt.Font;
 
 public class GameState_DC {
     private int boardSize;
@@ -176,7 +177,13 @@ public class GameState_DC {
     }
 
     public void stdDrawInit() {
-        StdDraw.setScale(0, boardSize + 1);  // add some additional space for text info
+        StdDraw.setCanvasSize(100 * boardSize, 100 * (boardSize + 1));
+        StdDraw.setXscale(0, boardSize);
+        StdDraw.setYscale(0, boardSize + 1);
+
+        Font font = new Font("Sans Serif", Font.PLAIN, 30);
+        StdDraw.setFont(font);
+
         StdDraw.enableDoubleBuffering();
     }
 
