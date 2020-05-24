@@ -25,14 +25,14 @@ public class IsolaGame_DC {
     private int currPlayer;
     boolean isGameOver;
 
-    public IsolaGame_DC(int boardSize) {
+    public IsolaGame_DC(int boardSize, int currPlayer) {
         this.boardSize = boardSize;
+        this.currPlayer = currPlayer;
         player1 = new Player_DC(boardSize, 0, boardSize / 2);
         // player2 = new Player_DC(boardSize, boardSize - 1, boardSize / 2);
         player2 = new MinimaxAI_DC(boardSize, boardSize - 1, boardSize / 2);
-        gameBoard = new GameState_DC(boardSize, player1, player2);
+        gameBoard = new GameState_DC(boardSize, player1, player2, currPlayer);
         gameBoard.stdDrawInit();
-        currPlayer = 1;
         isGameOver = false;
     }
 
