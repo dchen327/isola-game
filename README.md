@@ -13,6 +13,8 @@ Info from [here](https://www.cs.umb.edu/~yunxu/isola/rules.html)
 ## Minimax
 The AI implemented here uses the minimax algorithm, with an evaluation function that takes into account mobility of both players, distance from center, and the number of taken.
 
+Read more about minimax [here](https://en.wikipedia.org/wiki/Minimax)
+
 ## Demo (2x speed)
 ![isola_game_github_demo](https://user-images.githubusercontent.com/37674516/82745455-83a92180-9d52-11ea-871d-d1b907658d4e.gif)
 
