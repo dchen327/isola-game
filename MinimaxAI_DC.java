@@ -25,7 +25,7 @@ public class MinimaxAI_DC {
         double bestVal = Double.POSITIVE_INFINITY;
         for (int[] action : gameState.getPossibleActions()) {
             double val = minimax(gameState.generateSuccessor(action), minimaxDepth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-            System.out.println(gameState.getCurrAction() + " " + action[0] + " " + action[1] + " " + val);
+            // System.out.println(gameState.getCurrAction() + " " + action[0] + " " + action[1] + " " + val);
             if (val < bestVal) {
                 bestVal = val;
                 bestActions.clear();  // remove suboptimal actions

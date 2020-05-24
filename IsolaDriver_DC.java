@@ -4,6 +4,11 @@ public class IsolaDriver_DC {
         IsolaGame_DC game = new IsolaGame_DC(7);
         int winner = game.playGameAndGetWinner();
         System.out.println(winner);
-        System.exit(0);
+        StdDraw.pause(1000);
+        while (true) {
+            if (StdDraw.isMousePressed()) {
+                System.exit(0);
+            }
+        }
     }
 }

@@ -198,27 +198,29 @@ public class GameState_DC {
 
     public void draw() {
         StdDraw.clear();
-        for (int i = 0; i <= boardSize; i++) {  // draw horizontal and vertical gridlines
+        // draw horizontal and vertical gridlines
+        for (int i = 0; i <= boardSize; i++) {  
             StdDraw.line(0, i, boardSize, i);
             StdDraw.line(i, 0, i, boardSize);
         }
 
+        // draw game pieces and destroyed tiles
         for (int r = 0; r < boardSize; r++) {
             for (int c = 0; c < boardSize; c++) {
                 double[] xy = convertRCToXY(r, c);
                 double x = xy[0];
                 double y = xy[1];
-                if (grid[r][c] == "1") {
+                if (grid[r][c] == "1") {  // p1
                     StdDraw.setPenColor(StdDraw.GREEN);
                     StdDraw.filledCircle(x, y, 0.5);
                     StdDraw.setPenColor(StdDraw.BLACK);
                 }
-                else if (grid[r][c] == "2") {
+                else if (grid[r][c] == "2") { // p2
                     StdDraw.setPenColor(StdDraw.BLUE);
                     StdDraw.filledCircle(x, y, 0.5);
                     StdDraw.setPenColor(StdDraw.BLACK);
                 }
-                else if (grid[r][c] == "X") {
+                else if (grid[r][c] == "X") {  // destroyed
                     StdDraw.filledSquare(x, y, 0.5);
                 }
             }
@@ -227,7 +229,7 @@ public class GameState_DC {
         // text info above board: 'Player 1: destroy'
         String currInfo = "Player " + currPlayer + ": " + currAction;
         if (gameWinner() != 0) {  // game over
-            currInfo = "Player " + gameWinner() + " wins!";
+            currInfo = "Player " + gameWinner() + " wins! Click to EXIT.";
         }
         StdDraw.text(boardSize / 2.0, boardSize + 0.5, currInfo);
 

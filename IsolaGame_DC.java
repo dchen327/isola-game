@@ -22,6 +22,7 @@ public class IsolaGame_DC {
     private int boardSize;
     private Player_DC player1;
     private MinimaxAI_DC player2;
+    private int currPlayer;
     boolean isGameOver;
 
     public IsolaGame_DC(int boardSize) {
@@ -31,6 +32,7 @@ public class IsolaGame_DC {
         player2 = new MinimaxAI_DC(boardSize, boardSize - 1, boardSize / 2);
         gameBoard = new GameState_DC(boardSize, player1, player2);
         gameBoard.stdDrawInit();
+        currPlayer = 1;
         isGameOver = false;
     }
 
@@ -38,37 +40,49 @@ public class IsolaGame_DC {
     public int playGameAndGetWinner() {
         gameBoard.draw();
         while (!isGameOver) {
-            int[] move1 = {-2, -2};  // initialize this to something that will definitely not be valid
-            while (!gameBoard.isValidMove(player1, move1)) {
-                if (StdDraw.isMousePressed()) {
-                    move1 = player1.getMove();
-                }
+            if (currPlayer == 1) {
+                player1Turn();
             }
-            StdDraw.pause(50);
-            gameBoard.makeMove(move1);
-            gameBoard.draw();
-            int[] destroy1 = {-2, -2};
-            while (!gameBoard.isValidDestroy(destroy1)) {
-                if (StdDraw.isMousePressed()) {
-                    destroy1 = player1.getDestroy();
-                }
+            else {
+                player2Turn();
             }
-            StdDraw.pause(50);
-            gameBoard.destroyLoc(destroy1);
-            gameBoard.draw();
             if (gameBoard.gameWinner() != 0) {
                 return gameBoard.gameWinner();
             }
-
-            int[] move2 = player2.getAction(gameBoard);
-            gameBoard.makeMove(move2);
-            int[] destroy2 = player2.getAction(gameBoard);
-            gameBoard.destroyLoc(destroy2);
-            gameBoard.draw();
-            if (gameBoard.gameWinner() != 0) {
-                return gameBoard.gameWinner();
-            }
+            // swap player
+            currPlayer = 3 - currPlayer;
         }
         return 0;
     }
+
+    public void player1Turn() {
+        int[] move1 = {-2, -2};
+        while (!gameBoard.isValidMove(player1, move1)) {
+            if (StdDraw.isMousePressed()) {
+                move1 = player1.getMove();
+            }
+        }
+        StdDraw.pause(50);
+        gameBoard.makeMove(move1);
+        gameBoard.draw();
+        int[] destroy1 = {-2, -2};
+        while (!gameBoard.isValidDestroy(destroy1)) {
+            if (StdDraw.isMousePressed()) {
+                destroy1 = player1.getDestroy();
+            }
+        }
+        StdDraw.pause(50);
+        gameBoard.destroyLoc(destroy1);
+        gameBoard.draw();
+    }
+
+    public void player2Turn() {
+        int[] move2 = player2.getAction(gameBoard);
+        gameBoard.makeMove(move2);
+        gameBoard.draw();
+        int[] destroy2 = player2.getAction(gameBoard);
+        gameBoard.destroyLoc(destroy2);
+        gameBoard.draw();
+    }
+
 }
