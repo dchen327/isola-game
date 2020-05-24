@@ -4,21 +4,26 @@ import java.awt.Font;
 public class GameState_DC {
     private int boardSize;
     private String[][] grid;
-    private String currPlayer;
+    private int currPlayer;
     private String currAction;
     private int currMoveNum;
     Player_DC player1;
     MinimaxAI_DC player2;
 
-    // initialize empty grid (all null), then place two player pieces
+    // initialize empty grid (all ""), then place two player pieces
     public GameState_DC(int boardSize, Player_DC player1, MinimaxAI_DC player2) {
         this.boardSize = boardSize;
         this.player1 = player1;
         this.player2 = player2;
         grid = new String[boardSize][boardSize];
+        for (int r = 0; r < boardSize; r++) {
+            for (int c = 0; c < boardSize; c++) {
+                grid[r][c] = "";
+            }
+        }
         grid[player1.getCurrR()][player1.getCurrC()] = "1";
         grid[player2.getCurrR()][player2.getCurrC()] = "2";
-        currPlayer = "1";
+        currPlayer = 1;
         currAction = "move";
         currMoveNum = 1;
     }
@@ -32,8 +37,6 @@ public class GameState_DC {
                 this.grid[r][c] = gameState.grid[r][c];
             }
         }
-        // this.currPlayer = new String(gameState.currPlayer);
-        // this.currAction = new String(gameState.currAction);
         this.currPlayer = gameState.currPlayer;
         this.currAction = gameState.currAction;
         this.currMoveNum = gameState.currMoveNum;
@@ -46,14 +49,14 @@ public class GameState_DC {
         int moveR = move[0];
         int moveC = move[1];
 
-        grid[moveR][moveC] = currPlayer;
-        if (currPlayer.equals("1")) {
-            grid[player1.getCurrR()][player1.getCurrC()] = null;
+        grid[moveR][moveC] = Integer.toString(currPlayer);
+        if (currPlayer == 1) {
+            grid[player1.getCurrR()][player1.getCurrC()] = "";
             player1.setCurrR(moveR);
             player1.setCurrC(moveC);
         }
         else {
-            grid[player2.getCurrR()][player2.getCurrC()] = null;
+            grid[player2.getCurrR()][player2.getCurrC()] = "";
             player2.setCurrR(moveR);
             player2.setCurrC(moveC);
         }
@@ -70,12 +73,13 @@ public class GameState_DC {
 
     // swap player
     public void changePlayer() {
-        if (currPlayer.equals("1")) {
-            currPlayer = "2";
-        }
-        else {
-            currPlayer = "1";
-        }
+        // if (currPlayer.equals("1")) {
+        //     currPlayer = "2";
+        // }
+        // else {
+        //     currPlayer = "1";
+        // }
+        currPlayer = 3 - currPlayer;
     }
 
     // returns 0 if no winner, 1 or 2 if either player has won
@@ -109,7 +113,7 @@ public class GameState_DC {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (!(i == 0 && j == 0) && 0 <= pR + i && pR + i < boardSize && 0 <= pC + j && pC + j < boardSize) {
-                    if (grid[pR + i][pC + j] == null) {
+                    if (grid[pR + i][pC + j].equals("")) {
                         int move[] =  {pR + i, pC + j};
                         possibleMoves.add(move);
                     }
@@ -126,7 +130,7 @@ public class GameState_DC {
 
     public ArrayList<int[]> getPossibleActions() {
         if (currAction.equals("move")) {
-            if (currPlayer.equals("1")) {
+            if (currPlayer == 1) {
                 return getPossibleMoves(1);
             }
             else {
@@ -138,7 +142,7 @@ public class GameState_DC {
             for (int i = 0; i < boardSize; i++) {
                 for (int j = 0; j < boardSize; j++) {
                     if (0 <= i && i < boardSize && 0 <= j && j < boardSize) {
-                        if (grid[i][j] == null) {
+                        if (grid[i][j].equals("")) {
                             int destroy[] =  {i, j};
                             possibleDestroy.add(destroy);
                         }
@@ -158,8 +162,6 @@ public class GameState_DC {
         else {
             newState.destroyLoc(action);
         }
-        // System.out.println("New");
-        // System.out.println(newState);
 
         return newState;
     }
@@ -167,13 +169,13 @@ public class GameState_DC {
     public boolean isValidMove(Player_DC player, int[] move) {
         int r = move[0];
         int c = move[1];
-        return (Math.abs(r - player.getCurrR()) <= 1 && Math.abs(c - player.getCurrC()) <= 1 && grid[r][c] == null);
+        return (Math.abs(r - player.getCurrR()) <= 1 && Math.abs(c - player.getCurrC()) <= 1 && grid[r][c].equals(""));
     }
 
     public boolean isValidDestroy(int[] destroy) {
         int r = destroy[0];
         int c = destroy[1];
-        return (0 <= r && r < boardSize && 0 <= c && c < boardSize && grid[r][c] == null);
+        return (0 <= r && r < boardSize && 0 <= c && c < boardSize && grid[r][c].equals(""));
     }
 
     public void stdDrawInit() {
@@ -210,17 +212,17 @@ public class GameState_DC {
                 double[] xy = convertRCToXY(r, c);
                 double x = xy[0];
                 double y = xy[1];
-                if (grid[r][c] == "1") {  // p1
+                if (grid[r][c].equals("1")) {  // p1
                     StdDraw.setPenColor(StdDraw.GREEN);
                     StdDraw.filledCircle(x, y, 0.5);
                     StdDraw.setPenColor(StdDraw.BLACK);
                 }
-                else if (grid[r][c] == "2") { // p2
+                else if (grid[r][c].equals("2")) { // p2
                     StdDraw.setPenColor(StdDraw.BLUE);
                     StdDraw.filledCircle(x, y, 0.5);
                     StdDraw.setPenColor(StdDraw.BLACK);
                 }
-                else if (grid[r][c] == "X") {  // destroyed
+                else if (grid[r][c].equals("X")) {  // destroyed
                     StdDraw.filledSquare(x, y, 0.5);
                 }
             }
@@ -246,7 +248,7 @@ public class GameState_DC {
         return rc;
     }
 
-    public String getCurrPlayer() {
+    public int getCurrPlayer() {
         return currPlayer;
     }
 
@@ -262,7 +264,7 @@ public class GameState_DC {
         String board = "";
         for (int r = 0; r < boardSize; r++) {
             for (int c = 0; c < boardSize; c++) {
-                if (grid[r][c] == null) {  // no pieces here
+                if (grid[r][c].equals("")) {  // no pieces here
                     board += " -";
                 }
                 else {  // if not empty then it's 1, 2, or X

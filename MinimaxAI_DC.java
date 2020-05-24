@@ -49,10 +49,10 @@ public class MinimaxAI_DC {
             return evaluate(gameState);
         }
         ArrayList<int[]> actions = gameState.getPossibleActions();
-        String currPlayer = gameState.getCurrPlayer();
+        int currPlayer = gameState.getCurrPlayer();
         String currAction = gameState.getCurrAction();
         
-        if (currPlayer.equals("1")) {
+        if (currPlayer == 1) {
             for (int[] action : actions) {
                 double v = minimax(gameState.generateSuccessor(action), depth - 1, alpha, beta);
                 alpha = Math.max(alpha, v);
