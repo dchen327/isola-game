@@ -1,3 +1,12 @@
+/**
+ * This class provides methods for human players. It can prompt for and receive input through text 
+ * using java.util.Scanner. In addition, it can return a player's move based on mouse position.
+ * Mutator and accessor methods are provided for the player's current location.
+ *
+ * @author David Chen
+ * @version Java 1.8.0 - 3/17/20
+ */
+
 import java.util.Scanner;
 
 public class Player_DC {

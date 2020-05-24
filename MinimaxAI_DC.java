@@ -1,3 +1,12 @@
+/**
+ * This class provides methods for the minimax AI. It has a minimax depth that can be changed,
+ * and it provides the public method getAction() for returning an optimal action given a gameState.
+ * Mutator and accessor methods are provided for the AI's current location.
+ *
+ * @author David Chen
+ * @version Java 1.8.0 - 3/17/20
+ */
+
 import java.util.*;
 
 public class MinimaxAI_DC {
@@ -52,6 +61,7 @@ public class MinimaxAI_DC {
             return evaluate(gameState);
         }
         ArrayList<int[]> actions = gameState.getPossibleActions();
+        // randomly shuffle actions -> alpha/beta improvements
         orderActions(actions);
         int currPlayer = gameState.getCurrPlayer();
         String currAction = gameState.getCurrAction();
@@ -79,20 +89,21 @@ public class MinimaxAI_DC {
 
     }
 
+    // provide an estimate of the score of the current gameState
+    // considers mobility and center proximity
     private double evaluate(GameState_DC gameState) {
-        // take into account number of moves to prioritize faster wins
-        if (gameState.gameWinner() == 1) {
-            return 1000000.0 - gameState.getMoveNum();
-        }
-        if (gameState.gameWinner() == 2) {
-            return -1000000.0 + gameState.getMoveNum();
-        }
-        if (gameState.gameWinner() == 3) {  // tie
-            return 100.0;
-        }
-
         double p1Pos = gameState.getPossibleMoves(1).size() - centerProximity(gameState, 1);
         double p2Pos = gameState.getPossibleMoves(2).size() - centerProximity(gameState, 2);
+
+        if (gameState.gameWinner() == 1) {
+            return 1000000.0 - gameState.getMoveNum() + p1Pos - p2Pos;
+        }
+        if (gameState.gameWinner() == 2) {
+            return -1000000.0 + gameState.getMoveNum() + p1Pos - p2Pos;
+        }
+        if (gameState.gameWinner() == 3) {  // tie
+            return 100.0 + p1Pos - p2Pos;
+        }
 
         return p1Pos - p2Pos;
     }

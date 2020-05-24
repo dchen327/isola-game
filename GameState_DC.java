@@ -1,3 +1,14 @@
+/**
+ * This class keeps track of the current state of a game. It tracks the board size, grid, 
+ * current player (1, 2), current action (move, destroy), and current move number. In 
+ * addition, it has two players and uses these two players to get actions. The toString()
+ * method provides a readable string output, and the draw() method draws the board on a 
+ * canvas using the StdDraw library.
+ *
+ * @author David Chen
+ * @version Java 1.8.0 - 3/17/20
+ */
+
 import java.util.ArrayList;
 import java.awt.Font;
 
@@ -264,6 +275,14 @@ public class GameState_DC {
 
     public int getMoveNum() {
         return currMoveNum;
+    }
+
+    public void setMinimaxDepth(int depth) {
+        player2.setDepth(depth);
+    }
+
+    public int getMinimaxDepth() {
+        return player2.getDepth();
     }
 
     public String toString() {
