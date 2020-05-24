@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class MinimaxAI_DC {
     private int boardSize;
@@ -6,13 +6,14 @@ public class MinimaxAI_DC {
     private String playerState;
     private int minimaxDepth;
 
-    public MinimaxAI_DC(int boardSize, int initR, int initC) {
+    public MinimaxAI_DC(int boardSize, int initR, int initC, int minimaxDepth) {
         this.boardSize = boardSize;
         currR = initR;
         currC = initC;
-        minimaxDepth = 5;
+        this.minimaxDepth = minimaxDepth;
     }
 
+    // for making a copy of the objects
     public MinimaxAI_DC(MinimaxAI_DC player) {
         this.boardSize = player.boardSize;
         this.currR = player.currR;
@@ -23,7 +24,10 @@ public class MinimaxAI_DC {
     public int[] getAction(GameState_DC gameState) {
         ArrayList<int[]> bestActions = new ArrayList<int[]>();
         double bestVal = Double.POSITIVE_INFINITY;
-        for (int[] action : gameState.getPossibleActions()) {
+        ArrayList<int[]> actions = gameState.getPossibleActions();
+        orderActions(actions);
+        // for (int[] action : gameState.getPossibleActions()) {
+        for (int[] action : actions) {
             double val = minimax(gameState.generateSuccessor(action), minimaxDepth, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
             System.out.println(gameState.getCurrAction() + " " + action[0] + " " + action[1] + " " + val);
             if (val < bestVal) {
@@ -49,6 +53,7 @@ public class MinimaxAI_DC {
             return evaluate(gameState);
         }
         ArrayList<int[]> actions = gameState.getPossibleActions();
+        orderActions(actions);
         int currPlayer = gameState.getCurrPlayer();
         String currAction = gameState.getCurrAction();
         
@@ -84,7 +89,7 @@ public class MinimaxAI_DC {
             return -1000000.0 + gameState.getMoveNum();
         }
         if (gameState.gameWinner() == 3) {  // tie
-            return 0.0;
+            return 100.0;
         }
 
         double p1Pos = gameState.getPossibleMoves(1).size() - centerProximity(gameState, 1);
@@ -109,9 +114,26 @@ public class MinimaxAI_DC {
         }
 
         // dist to center
-        return Math.sqrt(Math.pow(posX - centerX, 2) + Math.pow(posY - centerY, 2));
+        return distance(posX, centerX, posY, centerY);
         // number of moves to reach center
         // return Math.max(Math.abs(posX - centerX), Math.abs(posY - centerY));
+    }
+
+    private double distance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    }
+
+    // randomize order of actions to try and get more alpha/beta pruning
+    public void orderActions(ArrayList<int[]> actions) {
+        Collections.shuffle(actions);
+    }
+
+    public void setDepth(int depth) {
+        minimaxDepth = depth;
+    }
+
+    public int getDepth() {
+        return minimaxDepth;
     }
 
     public void setCurrR(int newR) {
