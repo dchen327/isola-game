@@ -113,7 +113,7 @@ public class GameState_DC {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (!(i == 0 && j == 0) && 0 <= pR + i && pR + i < boardSize && 0 <= pC + j && pC + j < boardSize) {
-                    if (grid[pR + i][pC + j].equals("")) {
+                    if (grid[pR + i][pC + j].isEmpty()  ) {
                         int move[] =  {pR + i, pC + j};
                         possibleMoves.add(move);
                     }
@@ -144,7 +144,7 @@ public class GameState_DC {
 
             for (int i = 0; i < boardSize; i++) {
                 for (int j = 0; j < boardSize; j++) {
-                    if (grid[i][j].equals("")) {
+                    if (grid[i][j].isEmpty()    ) {
                         if ((Math.abs(i - p1R) <= 2 && Math.abs(j - p1C) <= 2) || 
                             Math.abs(i - p2R) <= 2 && Math.abs(j - p2C) <= 2) {
                             int destroy[] = {i, j};
@@ -174,13 +174,13 @@ public class GameState_DC {
     public boolean isValidMove(Player_DC player, int[] move) {
         int r = move[0];
         int c = move[1];
-        return (Math.abs(r - player.getCurrR()) <= 1 && Math.abs(c - player.getCurrC()) <= 1 && grid[r][c].equals(""));
+        return (Math.abs(r - player.getCurrR()) <= 1 && Math.abs(c - player.getCurrC()) <= 1 && grid[r][c].isEmpty()    );
     }
 
     public boolean isValidDestroy(int[] destroy) {
         int r = destroy[0];
         int c = destroy[1];
-        return (0 <= r && r < boardSize && 0 <= c && c < boardSize && grid[r][c].equals(""));
+        return (0 <= r && r < boardSize && 0 <= c && c < boardSize && grid[r][c].isEmpty()  );
     }
 
     public void stdDrawInit() {
@@ -269,7 +269,7 @@ public class GameState_DC {
         String board = "";
         for (int r = 0; r < boardSize; r++) {
             for (int c = 0; c < boardSize; c++) {
-                if (grid[r][c].equals("")) {  // no pieces here
+                if (grid[r][c].isEmpty()    ) {  // no pieces here
                     board += " -";
                 }
                 else {  // if not empty then it's 1, 2, or X
