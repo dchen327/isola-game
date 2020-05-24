@@ -25,7 +25,7 @@ public class GameState_DC {
         grid[player2.getCurrR()][player2.getCurrC()] = "2";
         this.currPlayer = currPlayer;
         currAction = "move";
-        currMoveNum = 1;
+        currMoveNum = 0;
     }
 
     // used for cloning GameState
@@ -68,6 +68,7 @@ public class GameState_DC {
     public void destroyLoc(int[] destroy) {
         grid[destroy[0]][destroy[1]] = "X";
         changePlayer();
+        currMoveNum++;
         currAction = "move";
     }
 

@@ -5,7 +5,6 @@ public class IsolaDriver_DC {
         int startingPlayer = 1;
         IsolaGame_DC game = new IsolaGame_DC(boardSize, startingPlayer);
         int winner = game.playGameAndGetWinner();
-        System.out.println(winner);
         StdDraw.pause(1000);
         while (true) {
             if (StdDraw.isMousePressed()) {
