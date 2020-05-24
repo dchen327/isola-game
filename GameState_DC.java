@@ -144,7 +144,7 @@ public class GameState_DC {
 
             for (int i = 0; i < boardSize; i++) {
                 for (int j = 0; j < boardSize; j++) {
-                    if (grid[i][j].isEmpty()    ) {
+                    if (grid[i][j].isEmpty()) {
                         if ((Math.abs(i - p1R) <= 2 && Math.abs(j - p1C) <= 2) || 
                             Math.abs(i - p2R) <= 2 && Math.abs(j - p2C) <= 2) {
                             int destroy[] = {i, j};

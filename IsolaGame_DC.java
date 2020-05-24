@@ -30,7 +30,7 @@ public class IsolaGame_DC {
         this.currPlayer = currPlayer;
         player1 = new Player_DC(boardSize, 0, boardSize / 2);
         // player2 = new Player_DC(boardSize, boardSize - 1, boardSize / 2);
-        player2 = new MinimaxAI_DC(boardSize, boardSize - 1, boardSize / 2);
+        player2 = new MinimaxAI_DC(boardSize, boardSize - 1, boardSize / 2, 5);
         gameBoard = new GameState_DC(boardSize, player1, player2, currPlayer);
         gameBoard.stdDrawInit();
         isGameOver = false;
@@ -50,7 +50,7 @@ public class IsolaGame_DC {
                 return gameBoard.gameWinner();
             }
             // swap player
-            currPlayer = 3 - currPlayer;
+            changePlayer();
         }
         return 0;
     }
@@ -83,6 +83,10 @@ public class IsolaGame_DC {
         int[] destroy2 = player2.getAction(gameBoard);
         gameBoard.destroyLoc(destroy2);
         gameBoard.draw();
+    }
+
+    public void changePlayer() {
+        currPlayer = 3 - currPlayer;
     }
 
 }

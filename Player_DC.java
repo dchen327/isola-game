@@ -10,6 +10,7 @@ public class Player_DC {
         currC = initC;
     }
 
+    // for making a copy of the object
     public Player_DC(Player_DC player) {
         this.boardSize = player.boardSize;
         this.currR = player.currR;
