@@ -11,7 +11,7 @@ public class GameState_DC {
     MinimaxAI_DC player2;
 
     // initialize empty grid (all ""), then place two player pieces
-    public GameState_DC(int boardSize, Player_DC player1, MinimaxAI_DC player2) {
+    public GameState_DC(int boardSize, Player_DC player1, MinimaxAI_DC player2, int currPlayer) {
         this.boardSize = boardSize;
         this.player1 = player1;
         this.player2 = player2;
@@ -23,7 +23,7 @@ public class GameState_DC {
         }
         grid[player1.getCurrR()][player1.getCurrC()] = "1";
         grid[player2.getCurrR()][player2.getCurrC()] = "2";
-        currPlayer = 1;
+        this.currPlayer = currPlayer;
         currAction = "move";
         currMoveNum = 1;
     }
@@ -120,11 +120,7 @@ public class GameState_DC {
                 }
             }
         }
-        // debugging
-        // for (int[] move : possibleMoves) {
-        //     System.out.print(move[0] + " " + move[1] + ", ");
-        // }
-        // System.out.println();
+
         return possibleMoves;
     }
 
@@ -139,16 +135,25 @@ public class GameState_DC {
         }
         else {  // destroy
             ArrayList<int[]> possibleDestroy = new ArrayList<int[]>();
+            // look for places to destroy in the 5x5 grid surrounding each player
+            // doesn't check all possible empty tiles, gives some speedup
+            int p1R = player1.getCurrR();
+            int p1C = player1.getCurrC();
+            int p2R = player2.getCurrR();
+            int p2C = player2.getCurrC();
+
             for (int i = 0; i < boardSize; i++) {
                 for (int j = 0; j < boardSize; j++) {
-                    if (0 <= i && i < boardSize && 0 <= j && j < boardSize) {
-                        if (grid[i][j].equals("")) {
-                            int destroy[] =  {i, j};
+                    if (grid[i][j].equals("")) {
+                        if ((Math.abs(i - p1R) <= 2 && Math.abs(j - p1C) <= 2) || 
+                            Math.abs(i - p2R) <= 2 && Math.abs(j - p2C) <= 2) {
+                            int destroy[] = {i, j};
                             possibleDestroy.add(destroy);
                         }
                     }
                 }
             }
+
             return possibleDestroy;
         }
     }
