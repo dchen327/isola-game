@@ -11,7 +11,7 @@ Isola is a 2 player game played on a 7x7 board with the following rules:
 
 Info from [here](https://www.cs.umb.edu/~yunxu/isola/rules.html)
 ## Minimax
-The AI implemented here uses the minimax algorithm, with an evaluation function that takes into account mobility of both players, distance from center, and the number of taken.
+The AI implemented here uses the minimax algorithm, with an evaluation function that takes into account mobility of both players, distance from center, and the number of moves taken.
 
 Read more about minimax [here](https://en.wikipedia.org/wiki/Minimax)
 
