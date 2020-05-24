@@ -91,13 +91,6 @@ public class MinimaxAI_DC {
         double p2Pos = gameState.getPossibleMoves(2).size() - centerProximity(gameState, 2);
 
         return p1Pos - p2Pos;
-        // not sure if this works
-        // if (gameState.getCurrAction().equals("destroy")) {
-        //     return (3 * p1Pos / 2) - p2Pos / 2;
-        // }
-        // else {
-        //     return p1Pos / 2 - (3 * p2Pos / 2);
-        // }
     }
 
     private double centerProximity(GameState_DC gameState, int playerNum) {
